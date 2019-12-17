@@ -1,4 +1,4 @@
-import { put, takeEvery, takeLatest, all, take, fork, cancel, select, delay } from 'redux-saga/effects';
+import { put, takeEvery, all, take, fork, cancel, select, delay } from 'redux-saga/effects';
 import {
   LOAD_USERS_ERROR, LOAD_USERS_LOADING, LOAD_USERS_SUCCESS, SORT_DATA,
   START_RATING, END_RATING, PICK_RANDOM_AND_RATE, SORT_DESCENDING, SORT_ASCENDING
@@ -7,18 +7,17 @@ import { generateRandom, randomRate, sortData, fetchAsync } from './utils';
 import Api from '../api';
 
 function* fetchUser() {
-    try {
-      const users = yield fetchAsync(Api.getUsers);
-      yield put({type: LOAD_USERS_SUCCESS, data: users});
-    } catch (e) {
-      yield put({type: LOAD_USERS_ERROR, error: e.message});
-    }
+  try {
+    const users = yield fetchAsync(Api.getUsers);
+    yield put({type: LOAD_USERS_SUCCESS, data: users});
+  } catch (e) {
+    yield put({type: LOAD_USERS_ERROR, error: e.message});
+  }
 };
 
 
- function* usersSaga() {
-    yield takeEvery(LOAD_USERS_LOADING, fetchUser);
-    // yield takeLatest(LOAD_USERS_LOADING, fetchUser);
+function* usersSaga() {
+  yield takeEvery(LOAD_USERS_LOADING, fetchUser);
 };
 
 function* waitAndRateSaga() {
@@ -46,10 +45,10 @@ function* asyncRateSaga() {
 };
 
 function* sortDataSaga() {
-const state = yield select();
-const sort = yield sortData(state);
+  const state = yield select();
+  const sort = yield sortData(state);
 
-yield put({ type: SORT_DATA, data: sort.data});
+  yield put({ type: SORT_DATA, data: sort.data});
 }
 
 function* asyncSortSaga() {

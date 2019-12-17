@@ -10,23 +10,21 @@ export const SORT_DESCENDING = 'REDUX_SAGA_SORT_DESCENDING';
 export const SORT_ASCENDING = 'REDUX_SAGA_SORT_ASCENDING ';
 
 export const loadUsers = () => dispatch => {
-    dispatch({ type: LOAD_USERS_LOADING });
+  dispatch({ type: LOAD_USERS_LOADING });
 };
 
 export const startRating = () => dispatch => {
-    dispatch({ type: START_RATING });
+  dispatch({ type: START_RATING });
 };
 
 export const endRating = () => dispatch => {
-    dispatch({ type: END_RATING });
+  dispatch({ type: END_RATING });
 };
 
 export const ascSort = () => dispatch => {
-  console.log('ascSort')
-    dispatch({ type: SORT_ASCENDING, payload: 'ascending' });
+  dispatch({ type: SORT_ASCENDING, payload: 'ascending' });
 };
 
 export const descSort = () => dispatch => {
-  console.log('descSort')
-    dispatch({ type: SORT_DESCENDING, payload: 'descending' });
+  dispatch({ type: SORT_DESCENDING, payload: 'descending' });
 };

@@ -1,11 +1,11 @@
 export async function fetchAsync(func) {
-    const response = await func();
+  const response = await func();
 
-    if (response.ok) {
-        return await response.json();
-    }
+  if (response.ok) {
+      return await response.json();
+  }
 
-    throw new Error("Unexpected error!!!");
+  throw new Error("Unexpected error!!!");
 };
 
 export function generateRandom(min, max) {
