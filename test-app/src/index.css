@@ -1,3 +1,9 @@
+html, body, #root, .loading {
+  height: 100%;
+}
+
+
+
 body {
   margin: 0;
   padding: 0;
@@ -15,6 +21,12 @@ code {
 
 .wrapper {
   padding: 0 40px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button-container {

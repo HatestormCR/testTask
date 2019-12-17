@@ -4,7 +4,7 @@ import shortid from 'shortid';
 import { createStructuredSelector } from 'reselect';
 import { loadUsers, startRating, endRating, ascSort, descSort } from "../../redux/actions";
 import { getData, getLoading, getError } from '../../redux/selectors'
-import { Table } from 'reactstrap';
+import { Table, Spinner, Button } from 'reactstrap';
 
 class Home extends React.Component {
     state = {
@@ -16,18 +16,21 @@ class Home extends React.Component {
     };
 
     userRandomizeRating = () => {
-      if(this.state.random === false) {
+      const { random } = this.state;
+      const { startRating, endRating } = this.props;
+
+      if(!random) {
         this.setState({
-          random: !this.state.random
+          random: !random
         });
 
-        return this.props.startRating();
+        return startRating();
       } else {
         this.setState({
-          random: !this.state.random
+          random: !random
         });
 
-        return this.props.endRating();
+        return endRating();
       }
     }
 
@@ -37,39 +40,39 @@ class Home extends React.Component {
       const { random } = this.state;
 
         if (loading) {
-            return <div>Loading</div>
-        }
+          return <div className="loading"><Spinner color="primary" type="grow" /></div>
+        };
 
         if (error) {
-            return <div style={{color: 'red'}}>ERROR: {error}</div>
-        }
+          return <div style={{color: 'red'}}>ERROR: {error}</div>
+        };
 
         return (
           <div className="wrapper">
             <div className="button-container">
-              <button className="button" onClick={() => this.userRandomizeRating()}>{random ? 'Stop random' : 'Start random'}</button>
-              <button className="button" onClick={() => ascSort()}>Ascending</button>
-              <button className="button" onClick={() => descSort()}>Descending</button>
+              <Button className="button" color="success" onClick={() => this.userRandomizeRating()}>{random ? 'Stop random' : 'Start random'}</Button>
+              <Button className="button" color="primary" onClick={() => ascSort()}>Ascending</Button>
+              <Button className="button" color="primary" onClick={() => descSort()}>Descending</Button>
             </div>
             <Table striped size="sm" hover>
               <thead>
                 <tr>
-                   <th>Lastname</th>
-                   <th>Rating</th>
+                  <th>Lastname</th>
+                  <th>Rating</th>
                  </tr>
                </thead>
                <tbody>
                {data.map((user, i) =>
                <tr key={shortid.generate()}>
-                  <td>{user.surname}</td>
-                  <td>{user.rating}</td>
+                 <td>{user.rating}</td>
+                 <td>{user.surname}</td>
                 </ tr>)}
               </tbody>
             </Table>
           </div>
         );
-    }
-}
+    };
+};
 
 const mapStateToProps = createStructuredSelector({
     data: getData,
