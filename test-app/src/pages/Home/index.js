@@ -45,7 +45,8 @@ class Home extends React.Component {
         return (
           <div>
             <button onClick={() => this.userRandomizeRating()}>{this.state.random ? 'Stop Random' : 'Start random'}</button>
-            <button onClick={() => this.props.ascSort()}>Ascend</button>
+            <button onClick={() => this.props.ascSort()}>Ascending</button>
+            <button onClick={() => this.props.descSort()}>Descending</button>
             <h1>Home1</h1>
             {this.props.data.map((user, i) => <div className="user-card">
                 <h3>{user.surname}</h3>
