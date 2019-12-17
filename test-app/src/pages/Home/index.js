@@ -1,30 +1,38 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { loadUsers, userRandomize } from "../../redux/actions";
+import { loadUsers, startRating, endRating, ascSort, descSort } from "../../redux/actions";
 
 class Home extends React.Component {
-  state = {
-    users: []
-  }
+    state = {
+      random: false
+    }
+
     componentDidMount() {
-        this.props.loadUsers();
+      this.props.loadUsers();
     };
 
+    userRandomizeRating = () => {
+      if(this.state.random === false) {
+        this.setState({
+          random: !this.state.random
+        });
+
+        return this.props.startRating();
+      } else {
+        this.setState({
+          random: !this.state.random
+        });
+
+        return this.props.endRating();
+      }
+    }
+
+    usersSort = () => {
+      return this.props.ascSort();
+    }
 
     render() {
 
-      // console.log(this.props.data);
-      var SortItems = this.props.data.sort(function (a, b) {
-        return a.rating - b.rating;
-      });
-
-      const items = SortItems.map((user, i) => <div className="user-card">
-                <h3>{user.surname}</h3>
-                <p>{user.rating}</p>
-                <p>{user.index}</p>
-              </div>);
-
-      // console.log(qqq, 'asd')
 
         if (this.props.loading) {
             return <div>Loading</div>
@@ -35,11 +43,16 @@ class Home extends React.Component {
         }
 
         return (
-            <div>
-              <button onClick={() => this.props.userRandomize()}>Random</button>
-              <h1>Home</h1>
-              {items}
-            </div>
+          <div>
+            <button onClick={() => this.userRandomizeRating()}>{this.state.random ? 'Stop Random' : 'Start random'}</button>
+            <button onClick={() => this.props.ascSort()}>Ascend</button>
+            <h1>Home1</h1>
+            {this.props.data.map((user, i) => <div className="user-card">
+                <h3>{user.surname}</h3>
+                <p>{user.rating}</p>
+                <p>{user.index}</p>
+              </div>)}
+          </div>
         );
     }
 }
@@ -52,7 +65,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     loadUsers,
-    userRandomize
+    startRating,
+    endRating,
+    ascSort,
+    descSort
 };
 
 export default connect(

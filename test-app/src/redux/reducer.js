@@ -1,9 +1,10 @@
-import {LOAD_USERS_ERROR, LOAD_USERS_LOADING, LOAD_USERS_SUCCESS, USER_RANDOMIZE} from "./actions";
+import {LOAD_USERS_ERROR, LOAD_USERS_LOADING, LOAD_USERS_SUCCESS, PICK_RANDOM_AND_RATE, SORT_ASCENDING } from "./actions";
 
 const initialState = {
     data: [],
     loading: false,
-    error: ''
+    error: '',
+    sort: false
 };
 
 export default function reduxSagaReducer(state = initialState, action) {
@@ -27,6 +28,18 @@ export default function reduxSagaReducer(state = initialState, action) {
                 ...state,
                 loading: false,
                 error: action.error
+            };
+        }
+        case PICK_RANDOM_AND_RATE: {
+            return {
+              ...state,
+              data: action.data,
+            };
+        }
+        case SORT_ASCENDING: {
+            return {
+              ...state,
+              sort: action.payload,
             };
         }
         default: {
