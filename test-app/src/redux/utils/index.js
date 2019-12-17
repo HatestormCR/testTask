@@ -19,9 +19,9 @@ export function randomRate(state) {
     data: state.data.map(item => ({
       ...item
     })
-  )}
+  )};
 
-  const length = newData.data.length
+  const length = newData.data.length;
 
   newData.data[generateRandom(0, length)]['rating'] = generateRandom(1, 10010);
   console.log('change rating');
@@ -36,7 +36,7 @@ export function sortData(data) {
     data: data.data.map(item => ({
       ...item
     })
-  )}
+  )};
 
   if(data.sort === 'ascending') {
     newData.data.sort(function (a, b) {

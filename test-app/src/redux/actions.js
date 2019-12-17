@@ -12,7 +12,7 @@ export const SORT_ASCENDING = 'REDUX_SAGA_SORT_ASCENDING ';
 
 export const loadUsers = () => ({
   type: LOAD_USERS_LOADING
-})
+});
 
 export const startRating = () => ({
   type: START_RATING

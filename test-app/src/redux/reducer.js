@@ -24,7 +24,7 @@ export default function reduxSagaReducer(state = initialState, action) {
         ...state,
         data: action.data,
         loading: false
-      }
+      };
     }
     case LOAD_USERS_ERROR: {
       return {
