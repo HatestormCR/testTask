@@ -9,22 +9,23 @@ export const SORT_DATA = 'REDUX_SAGA_SORT_DATA';
 export const SORT_DESCENDING = 'REDUX_SAGA_SORT_DESCENDING';
 export const SORT_ASCENDING = 'REDUX_SAGA_SORT_ASCENDING ';
 
-export const loadUsers = () => dispatch => {
-  dispatch({ type: LOAD_USERS_LOADING });
-};
 
-export const startRating = () => dispatch => {
-  dispatch({ type: START_RATING });
-};
+export const loadUsers = () => ({
+  type: LOAD_USERS_LOADING
+})
 
-export const endRating = () => dispatch => {
-  dispatch({ type: END_RATING });
-};
+export const startRating = () => ({
+  type: START_RATING
+});
 
-export const ascSort = () => dispatch => {
-  dispatch({ type: SORT_ASCENDING, payload: 'ascending' });
-};
+export const endRating = () => ({
+  type: END_RATING
+});
 
-export const descSort = () => dispatch => {
-  dispatch({ type: SORT_DESCENDING, payload: 'descending' });
-};
+export const ascSort = () => ({
+  type: SORT_ASCENDING, payload: 'ascending'
+});
+
+export const descSort = () => ({
+  type: SORT_DESCENDING, payload: 'descending'
+});

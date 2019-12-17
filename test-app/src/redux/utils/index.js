@@ -21,7 +21,9 @@ export function randomRate(state) {
     })
   )}
 
-  newData.data[generateRandom(0, 1000)]['rating'] = generateRandom(1, 10010);
+  const length = newData.data.length
+
+  newData.data[generateRandom(0, length)]['rating'] = generateRandom(1, 10010);
   console.log('change rating');
 
   return newData;

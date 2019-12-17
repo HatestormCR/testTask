@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import shortid from 'shortid';
+import { createStructuredSelector } from 'reselect';
 import { loadUsers, startRating, endRating, ascSort, descSort } from "../../redux/actions";
+import { getData, getLoading, getError } from '../../redux/selectors'
+import { Table } from 'reactstrap';
 
 class Home extends React.Component {
     state = {
@@ -27,41 +31,50 @@ class Home extends React.Component {
       }
     }
 
-    usersSort = () => {
-      return this.props.ascSort();
-    }
-
     render() {
 
+      const { loading, error, ascSort, descSort, data } = this.props;
+      const { random } = this.state;
 
-        if (this.props.loading) {
+        if (loading) {
             return <div>Loading</div>
         }
 
-        if (this.props.error) {
-            return <div style={{color: 'red'}}>ERROR: {this.props.error}</div>
+        if (error) {
+            return <div style={{color: 'red'}}>ERROR: {error}</div>
         }
 
         return (
-          <div>
-            <button onClick={() => this.userRandomizeRating()}>{this.state.random ? 'Stop Random' : 'Start random'}</button>
-            <button onClick={() => this.props.ascSort()}>Ascending</button>
-            <button onClick={() => this.props.descSort()}>Descending</button>
-            <h1>Home1</h1>
-            {this.props.data.map((user, i) => <div className="user-card">
-                <h3>{user.surname}</h3>
-                <p>{user.rating}</p>
-                <p>{user.index}</p>
-              </div>)}
+          <div className="wrapper">
+            <div className="button-container">
+              <button className="button" onClick={() => this.userRandomizeRating()}>{random ? 'Stop random' : 'Start random'}</button>
+              <button className="button" onClick={() => ascSort()}>Ascending</button>
+              <button className="button" onClick={() => descSort()}>Descending</button>
+            </div>
+            <Table striped size="sm" hover>
+              <thead>
+                <tr>
+                   <th>Lastname</th>
+                   <th>Rating</th>
+                 </tr>
+               </thead>
+               <tbody>
+               {data.map((user, i) =>
+               <tr key={shortid.generate()}>
+                  <td>{user.surname}</td>
+                  <td>{user.rating}</td>
+                </ tr>)}
+              </tbody>
+            </Table>
           </div>
         );
     }
 }
 
-const mapStateToProps = state => ({
-    data: state.data,
-    loading: state.loading,
-    error: state.error,
+const mapStateToProps = createStructuredSelector({
+    data: getData,
+    loading: getLoading,
+    error: getError,
 });
 
 const mapDispatchToProps = {
