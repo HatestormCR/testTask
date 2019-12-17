@@ -6,7 +6,10 @@ import {
 import { generateRandom, randomRate, sortData, fetchAsync } from './utils';
 import Api from '../api';
 
-function* fetchUser() {
+
+//Вызывает ассинхронную фунцию, которая получает данные с API.
+//данные передаются в state
+export function* fetchUser() {
   try {
     const users = yield fetchAsync(Api.getUsers);
     yield put({type: LOAD_USERS_SUCCESS, data: users});
@@ -15,12 +18,9 @@ function* fetchUser() {
   }
 };
 
-
-function* usersSaga() {
-  yield takeEvery(LOAD_USERS_LOADING, fetchUser);
-};
-
-function* waitAndRateSaga() {
+//бесконечный цикл в которой рандомному юзеру присваивается
+//рандомный рейтинг. Также сортирует и помещает данные в state
+export function* waitAndRateSaga() {
   while(true) {
     const state = yield select();
     const randomMs = generateRandom(100, 900);
@@ -30,6 +30,19 @@ function* waitAndRateSaga() {
     yield put({ type: PICK_RANDOM_AND_RATE, data: sort.data});
     yield delay(randomMs);
   }
+};
+
+//сортирует данные из state по возрастанию или убывания
+export function* sortDataSaga() {
+  const state = yield select();
+  const sort = yield sortData(state);
+
+  yield put({ type: SORT_DATA, data: sort.data});
+}
+
+
+function* usersSaga() {
+  yield takeEvery(LOAD_USERS_LOADING, fetchUser);
 };
 
 function* asyncRateSaga() {
@@ -43,13 +56,6 @@ function* asyncRateSaga() {
     yield cancel(task);
   }
 };
-
-function* sortDataSaga() {
-  const state = yield select();
-  const sort = yield sortData(state);
-
-  yield put({ type: SORT_DATA, data: sort.data});
-}
 
 function* asyncSortSaga() {
   yield takeEvery(SORT_DESCENDING, sortDataSaga);
