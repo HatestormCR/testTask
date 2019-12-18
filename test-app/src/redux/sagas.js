@@ -23,7 +23,7 @@ export function* fetchUser() {
 export function* waitAndRateSaga() {
   while(true) {
     const state = yield select();
-    const randomMs = generateRandom(100, 900);
+    const randomMs = yield generateRandom(100, 900);
     const newData = yield randomRate(state);
     const sort = yield sortData(newData);
 
@@ -58,14 +58,13 @@ function* asyncRateSaga() {
 };
 
 function* asyncSortSaga() {
-  yield takeEvery(SORT_DESCENDING, sortDataSaga);
-  yield takeEvery(SORT_ASCENDING, sortDataSaga);
+  yield takeEvery([SORT_DESCENDING, SORT_ASCENDING], sortDataSaga);
 };
 
 export default function* rootSaga() {
   yield all([
-    usersSaga(),
-    asyncRateSaga(),
-    asyncSortSaga()
+    fork(usersSaga),
+    fork(asyncRateSaga),
+    fork(asyncSortSaga)
   ])
 };

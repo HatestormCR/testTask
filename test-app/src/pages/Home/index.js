@@ -64,8 +64,8 @@ class Home extends React.Component {
                <tbody>
                {data.map((user, i) =>
                <tr key={shortid.generate()}>
-                 <td>{user.rating}</td>
                  <td>{user.surname}</td>
+                 <td>{user.rating}</td>
                 </ tr>)}
               </tbody>
             </Table>

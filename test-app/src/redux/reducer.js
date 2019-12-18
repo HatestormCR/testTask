@@ -10,52 +10,66 @@ const initialState = {
     sort: false
 };
 
+const loadUsersLoading = state => ({
+  ...state,
+  loading: true,
+  error:''
+});
+
+const loadUsersSuccess = (state, data) => ({
+  ...state,
+  data: data,
+  loading: false
+});
+
+const loadUsersError = (state, error) => ({
+  ...state,
+  loading: false,
+  error: error
+});
+
+const pickRandomAndRate = (state, data) => ({
+  ...state,
+  data: data,
+});
+
+const sortData = (state, data) => ({
+  ...state,
+  data: data,
+});
+
+const sortAscending = (state, payload) => ({
+  ...state,
+  sort: payload,
+});
+
+const sortDescending = (state, payload) => ({
+  ...state,
+  sort: payload,
+});
+
 export default function reduxSagaReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_USERS_LOADING: {
-      return {
-        ...state,
-        loading: true,
-        error:''
-      };
+      return loadUsersLoading(state);
     }
     case LOAD_USERS_SUCCESS: {
-      return {
-        ...state,
-        data: action.data,
-        loading: false
-      };
+      return loadUsersSuccess(state, action.data);
     }
     case LOAD_USERS_ERROR: {
-      return {
-        ...state,
-        loading: false,
-        error: action.error
-      };
+      return loadUsersError(state, action.error);
     }
     case PICK_RANDOM_AND_RATE: {
-      return {
-        ...state,
-        data: action.data,
-      };
+      return pickRandomAndRate(state, action.data);
     }
     case SORT_DATA: {
-      return {
-        ...state,
-        data: action.data,
-      };
+      return sortData(state, action.data);
     }
     case SORT_ASCENDING: {
-      return {
-        ...state,
-        sort: action.payload,
-      };
+      return sortAscending(state, action.payload);
     }
     case SORT_DESCENDING: {
-      return {
-        ...state,
-        sort: action.payload,
-      };
+      return sortDescending(state, action.payload);
     }
     default: {
       return state;
